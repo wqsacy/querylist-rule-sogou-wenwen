@@ -1,9 +1,12 @@
 {
-    "name": "wangqs\/sougou",
+    "name": "wangqs\/sougo",
     "description": "QueryList搜狗搜索插件，搜狗搜索采集，搜狗搜索爬虫。",
     "license": "MIT",
     "require": {
         "PHP":">=7.0",
+        "wangqs/abuyun": "^4.2"
+    },
+    "require-dev": {
         "jaeger/querylist": "^4.1"
     },
     "autoload": {

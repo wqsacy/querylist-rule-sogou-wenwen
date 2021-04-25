@@ -42,6 +42,9 @@
 		 */
 		protected $httpOpt = [];
 
+
+		protected $proxy = [];
+
 		/**
 		 * 请求地址
 		 *
@@ -78,10 +81,12 @@
 		 * @param QueryList $queryList
 		 * @param int       $perPage
 		 */
-		public function __construct ( QueryList $queryList , int $perPage = null ) {
+		public function __construct ( QueryList $queryList , int $perPage = null , $proxy=false) {
 			$this->queryList = $queryList->rules( self::RULES )
 			                             ->range( self::RANGE );
 			$this->perPage = $perPage;
+
+			$this->proxy = $proxy;
 		}
 
 		/**
@@ -92,9 +97,9 @@
 		 */
 		public static function install ( QueryList $queryList , ...$opt ) {
 			$name = $opt[0] ?? 'sogou';
-			$queryList->bind( $name , function ( $perPage = 10 )
+			$queryList->bind( $name , function ( $perPage = 10 ,$proxy=false )
 			{
-				return new Sogou( $this , $perPage );
+				return new Sogou( $this , $perPage,$proxy);
 			} );
 		}
 
@@ -191,15 +196,41 @@
 		 * @return QueryList
 		 */
 		protected function query ( int $page = 1 ) {
-			$this->queryList->get( self::API , [
-				'query' => $this->keyword ,
-				'page'  => $page ,
-				'num'   => $this->perPage ,
-				'ie'    => 'utf8'
-			] , $this->httpOpt );
+			if(!$this->proxy){
+				$this->queryList->get( self::API , [
+					'query' => $this->keyword ,
+					'page'  => $page ,
+					'num'   => $this->perPage ,
+					'ie'    => 'utf8'
+				] , $this->httpOpt );
+			}else{
+				$this->queryList->setHtml($this->queryByProxy($page));
+			}
 
 			return $this->queryList;
 		}
+
+
+		protected function queryByProxy( int $page = 1 ){
+
+			$url = self::API."?query={$this->keyword}&page={$page}&num={$this->perPage}&ie=utf8";
+
+			$html = $this->getHtml($url);
+
+			return $this->queryList->setHtml($html);
+		}
+
+
+		protected function getHtml($url){
+			$ql = QueryList::getInstance();
+
+			$ql->use(Abuyun::class);
+
+			$abuyun = $ql->abuyun($this->proxy['user'],$this->proxy['password'],$this->proxy['server']);
+
+			return $abuyun->setHttpOpt($this->httpOpt)->getHtml($url);
+		}
+
 
 		/**
 		 * 获取搜狗跳转的真正地址
