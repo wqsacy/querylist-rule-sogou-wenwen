@@ -1,23 +1,24 @@
 <?php
-	/**
-	 *
-	 * Created by Wangqs
-	 * Date: 2021/4/25 09:34
-	 */
 
 	namespace QL\Ext;
 
 	use QL\Contracts\PluginContract;
 	use QL\QueryList;
 
-
+	/**
+	 * QueryList Plugin: Sogou searcher.
+	 * Class Sogou
+	 *
+	 * @package QL\Ext
+	 * @author  CocaCoffee <CocaCoffee@vip.qq.com>
+	 */
 	class Sogou implements PluginContract
 	{
 
 		/**
 		 * QueryList对象
 		 *
-		 * @var QueryList
+		 * @var QL\QueryList
 		 */
 		protected $queryList;
 
@@ -42,8 +43,7 @@
 		 */
 		protected $httpOpt = [];
 
-
-		protected $proxy = [];
+		protected $proxy = false;
 
 		/**
 		 * 请求地址
@@ -81,12 +81,10 @@
 		 * @param QueryList $queryList
 		 * @param int       $perPage
 		 */
-		public function __construct ( QueryList $queryList , int $perPage = null , $proxy=false) {
+		public function __construct ( QueryList $queryList , int $perPage = null ) {
 			$this->queryList = $queryList->rules( self::RULES )
 			                             ->range( self::RANGE );
 			$this->perPage = $perPage;
-
-			$this->proxy = $proxy;
 		}
 
 		/**
@@ -97,16 +95,23 @@
 		 */
 		public static function install ( QueryList $queryList , ...$opt ) {
 			$name = $opt[0] ?? 'sogou';
-			$queryList->bind( $name , function ( $perPage = 10 ,$proxy=false )
+			$queryList->bind( $name , function ( $perPage = 10 )
 			{
-				return new Sogou( $this , $perPage,$proxy);
+				return new Sogou( $this , $perPage );
 			} );
+		}
+
+
+		public function setProxy(array | bool $proxy = false){
+			if($proxy)
+				$this->proxy = $proxy;
 		}
 
 		/**
 		 * 设置HTTP选项
 		 *
 		 * @param array $httpOpt
+		 * @return \QL\Ext\Baidu
 		 */
 		public function setHttpOpt ( array $httpOpt = [] ) {
 			$this->httpOpt = $httpOpt;
@@ -117,6 +122,7 @@
 		 * 设置搜索关键词
 		 *
 		 * @param string $keyword
+		 * @return \QL\Ext\Baidu
 		 */
 		public function search ( string $keyword ) {
 			$this->keyword = $keyword;
@@ -128,6 +134,7 @@
 		 *
 		 * @param int     $page
 		 * @param boolean $realURL
+		 * @return Tightenco\Collect\Support\Collection
 		 */
 		public function page ( int $page = 1 , bool $realURL = false ) {
 			return $this->query( $page )
@@ -142,6 +149,7 @@
 		/**
 		 * 获取相关搜索
 		 *
+		 * @return Tightenco\Collect\Support\Collection
 		 */
 		public function getSuggestions () {
 			// 选择器
@@ -193,7 +201,7 @@
 		 * 获取原始数据
 		 *
 		 * @param number $page
-		 * @return QueryList
+		 * @return QL\QueryList
 		 */
 		protected function query ( int $page = 1 ) {
 			if(!$this->proxy){
@@ -209,7 +217,6 @@
 
 			return $this->queryList;
 		}
-
 
 		protected function queryByProxy( int $page = 1 ){
 
@@ -230,7 +237,6 @@
 
 			return $abuyun->setHttpOpt($this->httpOpt)->getHtml($url);
 		}
-
 
 		/**
 		 * 获取搜狗跳转的真正地址
