@@ -1,12 +1,12 @@
 <h1 align="center"> sougou </h1>
 
-<p align="center"> QueryList搜狗搜索插件，搜狗搜索采集，搜狗搜索爬虫。.</p>
+<p align="center"> QueryList搜狗问问搜索插件，搜狗搜索采集，搜狗搜索爬虫。.</p>
 
 
 ## Installing
 
 ```shell
-$ composer require wangqs/querylist-rule-sogou -vvv
+$ composer require wangqs/querylist-rule-sogou-wenwen -vvv
 ```
 
 ## Usage
