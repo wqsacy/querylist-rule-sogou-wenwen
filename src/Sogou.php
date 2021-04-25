@@ -5,13 +5,7 @@
 	use QL\Contracts\PluginContract;
 	use QL\QueryList;
 
-	/**
-	 * QueryList Plugin: Sogou searcher.
-	 * Class Sogou
-	 *
-	 * @package QL\Ext
-	 * @author  CocaCoffee <CocaCoffee@vip.qq.com>
-	 */
+
 	class Sogou implements PluginContract
 	{
 
