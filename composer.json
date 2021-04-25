@@ -1,17 +1,16 @@
 {
-    "name": "wangqs/querylist-rule-sogou",
-    "description": "QueryList搜狗搜索插件，搜狗搜索采集，搜狗搜索爬虫。",
+    "name": "wangqs/querylist-rule-sogou-wenwen",
+    "description": "QueryList搜狗问问搜索插件，搜狗搜索采集，搜狗搜索爬虫。",
     "license": "MIT",
     "require": {
-        "PHP":">=7.0",
-        "wangqs/abuyun": "^4.2"
+        "PHP":">=7.0"
     },
     "require-dev": {
         "jaeger/querylist": "^4.1"
     },
     "autoload": {
         "psr-4": {
-            "Wangqs\\Sougou\\": "src"
+            "QL\\Ext\\": ""
         }
     }
 }
