@@ -6,7 +6,7 @@
 ## Installing
 
 ```shell
-$ composer require wangqs/sougou -vvv
+$ composer require wangqs/querylist-rule-sogou -vvv
 ```
 
 ## Usage

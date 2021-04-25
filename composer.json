@@ -1,5 +1,5 @@
 {
-    "name": "wangqs\/sogou",
+    "name": "wangqs/querylist-rule-sogou",
     "description": "QueryList搜狗搜索插件，搜狗搜索采集，搜狗搜索爬虫。",
     "license": "MIT",
     "require": {
