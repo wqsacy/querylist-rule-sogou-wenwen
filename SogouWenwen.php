@@ -83,10 +83,11 @@
 		protected function query ( $page = 1 ) {
 			$this->ql->get( self::API , [
 				'query' => $this->keyword,
-				'page' => $page,
-				'num' => $this->pageNumber,
+				'insite'=>'wenwen.sogou.com',
+				'pid' => 'sogou-wsse-a9e18cb5dd9d3ab4',
+				'rcer' => '',
 				'ie' => 'utf8',
-				'_asf' => 'www.sogou.com',
+				'page' => $page,
 			] , $this->httpOpt );
 			return $this->ql;
 		}
