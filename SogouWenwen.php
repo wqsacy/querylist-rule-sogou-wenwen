@@ -25,7 +25,8 @@
 		const API = 'https://www.sogou.com/sogou';
 		const RULES = [
 			'title' => [ 'h3>a' , 'text' ] ,
-			'link'  => [ 'h3>a' , 'href' ]
+			'link'  => [ 'h3>a' , 'href' ],
+            'best_answer' => ['.text-layout .star-wiki','text','-span']
 		];
 		const RANGE = '.results>div';
 
